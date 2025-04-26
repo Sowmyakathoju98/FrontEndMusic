@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 function HomePageComponent() {
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
+    const storedUser = localStorage.getItem('user');
+    const [user, setUser] = useState(JSON.parse(storedUser));
 
     useEffect(() => {
         // Retrieve user data from localStorage
@@ -11,7 +12,7 @@ function HomePageComponent() {
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
-    }, []);
+    }, [storedUser]);
 
     return (
         <div>
@@ -26,60 +27,60 @@ function HomePageComponent() {
             }}>
                 {/* Logo and App Name */}
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <img 
-                        src="https://cdn-icons-png.flaticon.com/512/727/727245.png" 
-                        alt="Music Logo" 
-                        style={{ width: '30px', height: '30px', marginRight: '10px' }} 
+                    <img
+                        src="https://cdn-icons-png.flaticon.com/512/727/727245.png"
+                        alt="Music Logo"
+                        style={{ width: '30px', height: '30px', marginRight: '10px' }}
                     />
                     <h1 style={{ margin: 0, fontSize: '24px' }}>TuneTogether</h1>
                 </div>
 
                 {user ? (
-    <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-        <img 
-            src={user.image} 
-            alt="User" 
-            title={user.name} 
-            style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '10px' }} 
-        />
-        <span style={{ fontSize: '16px', marginRight: '10px' }}>{user.name}</span>
-        <button 
-            onClick={() => {
-                if (window.confirm("Are you sure you want to logout?")) {
-                    localStorage.removeItem('user'); // Clear user data
-                    setUser(null); // Reset user state
-                    navigate('/home'); // Redirect to Home page
-                }
-            }}
-            style={{
-                padding: '5px 10px',
-                backgroundColor: '#f44336',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                fontSize: '14px',
-                color: 'white'
-            }}
-        >
-            Logout
-        </button>
-    </div>
-) : (
-    <button 
-        onClick={() => navigate('/login')} 
-        style={{
-            padding: '10px 20px',
-            backgroundColor: '#61dafb',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            fontSize: '16px',
-            color: '#282c34'
-        }}
-    >
-        Login
-    </button>
-)}
+                    <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                        <img
+                            src={user.image}
+                            alt="User"
+                            title={user.name}
+                            style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '10px' }}
+                        />
+                        <span style={{ fontSize: '16px', marginRight: '10px' }}>{user.name}</span>
+                        <button
+                            onClick={() => {
+                                if (window.confirm("Are you sure you want to logout?")) {
+                                    localStorage.removeItem('user'); // Clear user data
+                                    setUser(null); // Reset user state
+                                    navigate('/home'); // Redirect to Home page
+                                }
+                            }}
+                            style={{
+                                padding: '5px 10px',
+                                backgroundColor: '#f44336',
+                                border: 'none',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '14px',
+                                color: 'white'
+                            }}
+                        >
+                            Logout
+                        </button>
+                    </div>
+                ) : (
+                    <button
+                        onClick={() => navigate('/login')}
+                        style={{
+                            padding: '10px 20px',
+                            backgroundColor: '#61dafb',
+                            border: 'none',
+                            borderRadius: '5px',
+                            cursor: 'pointer',
+                            fontSize: '16px',
+                            color: '#282c34'
+                        }}
+                    >
+                        Login
+                    </button>
+                )}
             </nav>
 
 
