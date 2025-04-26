@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 function LoginComponent(props) {
     const navigate = useNavigate();
     const [email, setEmail] = useState();
@@ -13,8 +14,24 @@ function LoginComponent(props) {
 
     };
 
-    const handleClick = () => {
-        navigate('/signup');
+    const onHandleGmail = (creds) => {
+        const decodeUserDetails = jwtDecode(creds.credential);
+        const reqBody = {
+            firstName: decodeUserDetails.given_name,
+            lastName: decodeUserDetails.family_name,
+            email: decodeUserDetails.email,
+            image: decodeUserDetails.picture,
+            signIn: false
+        }
+        axios.post("http://localhost:3001/userDetails/signUp", reqBody)
+            .then((res) => {
+                console.log(res);
+                navigate('/home');
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        navigate('/home');
     };
     return (
         <div style={{ maxWidth: '400px', margin: '50px auto' }}>
@@ -42,13 +59,10 @@ function LoginComponent(props) {
                 <button type="submit">Login</button>
             </form><br />
             or
-            <button onClick={() => navigate('/signup')}>Create your account</button>
+            <button onClick={() => navigate('/signup')}>Create your account</button><br /><br />
             or
             <GoogleLogin
-                onSuccess={(creds) => {
-                    console.log(creds);
-                    console.log(jwtDecode(creds.credential));
-                }}
+                onSuccess={(creds) => { onHandleGmail(creds) }}
                 onError={() => console.log("Login Failed")
                 } />
         </div>

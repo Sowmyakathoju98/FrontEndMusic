@@ -9,6 +9,7 @@ function SignUpComponent() {
         lastName: '',
         email: '',
         password: '',
+        image: '',
         confirmPassword: ''
     });
 
@@ -28,7 +29,7 @@ function SignUpComponent() {
         axios.post("http://localhost:3001/userDetails/signUp", formData)
             .then((res) => {
                 console.log(res);
-                navigate('/signup');
+                navigate('/home');
             })
             .catch((err) => {
                 console.log(err);
@@ -54,6 +55,16 @@ function SignUpComponent() {
                     id="lastName"
                     name="lastName"
                     value={formData.lastName}
+                    onChange={handleChange}
+                />
+            </div>
+            <div>
+                <label htmlFor="image">Image:</label>
+                <input
+                    type="file"
+                    id="image"
+                    name="image"
+                    value={formData.image}
                     onChange={handleChange}
                 />
             </div>
