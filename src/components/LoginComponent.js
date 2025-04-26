@@ -10,19 +10,19 @@ function LoginComponent(props) {
     const [password, setPassword] = useState();
     const handleSubmit = (e) => {
         e.preventDefault();
-    
+
         const reqBody = {
             email: email,
             password: password
         };
-    
+
         axios.post("http://localhost:3001/userDetails/login", reqBody)
             .then((res) => {
                 console.log("Login successful:", res.data);
                 // Navigate to home or handle success
                 const userData = {
-                    name: res.data.name, 
-                    image: res.data.image 
+                    name: res.data.name,
+                    image: res.data.image
                 };
                 localStorage.setItem('user', JSON.stringify(userData));
                 navigate('/home');
@@ -33,8 +33,8 @@ function LoginComponent(props) {
                     alert(err.response.data.message); // Display the error message as an alert
                 } else {
                     // Handle error (e.g., show error message to the user)
-                console.error("Login failed:", err.response ? err.response.data : err.message);
-                alert("Login failed:" + (err.response ? err.response.data.message : err.message));
+                    console.error("Login failed:", err.response ? err.response.data : err.message);
+                    alert("Login failed:" + (err.response ? err.response.data.message : err.message));
                 }
             });
     };
@@ -50,7 +50,14 @@ function LoginComponent(props) {
         }
         axios.post("http://localhost:3001/userDetails/signUp", reqBody)
             .then((res) => {
-                console.log(res);
+                // Navigate to home or handle success
+                const userData = {
+                    name: res?.data?.user?.firstName,
+                    image: res?.data?.user?.image
+                };
+                console.log(userData);
+
+                localStorage.setItem('user', JSON.stringify(userData));
                 navigate('/home');
             })
             .catch((err) => {
