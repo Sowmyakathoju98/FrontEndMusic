@@ -8,6 +8,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<HomePageComponent />} />
           <Route path="/home" element={<HomePageComponent />} />
           <Route path="/login" element={<LoginComponent fullname="Deva" email="test@gmail.com" />} />
           <Route path="/signup" element={<SignUpComponent details={{ fullname: "Deva", email: "test@gmail.com" }} />} />
