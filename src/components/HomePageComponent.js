@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import RoomComponent from './RoomComponent';
 
 function HomePageComponent() {
     const navigate = useNavigate();
@@ -86,8 +87,11 @@ function HomePageComponent() {
 
             {/* Main Content */}
             <div style={{ textAlign: 'center', marginTop: '50px' }}>
-                <h2>Welcome to TuneTogether!</h2>
+                <h2>Welcome to VibeTogether!</h2>
                 <p>Discover and enjoy music with your friends.</p>
+            </div>
+            <div>
+                <RoomComponent />
             </div>
         </div>
     );
