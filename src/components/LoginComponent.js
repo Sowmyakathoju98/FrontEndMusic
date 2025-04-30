@@ -22,7 +22,8 @@ function LoginComponent(props) {
                 // Navigate to home or handle success
                 const userData = {
                     name: res?.data?.user?.firstName,
-                    image: res?.data?.user?.image
+                    image: res?.data?.user?.image,
+                    email: res?.data?.user?.email
                 };
                 localStorage.setItem('user', JSON.stringify(userData));
                 navigate('/home');
@@ -53,15 +54,16 @@ function LoginComponent(props) {
                 // Navigate to home or handle success
                 const userData = {
                     name: res?.data?.user?.firstName,
-                    image: res?.data?.user?.image
+                    image: res?.data?.user?.image,
+                    email: res?.data?.user?.email
                 };
                 console.log(userData);
-
                 localStorage.setItem('user', JSON.stringify(userData));
                 navigate('/home');
             })
             .catch((err) => {
                 console.log(err);
+                alert("Gmail login failed. Please try again.");
             })
         navigate('/home');
     };

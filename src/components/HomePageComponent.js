@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RoomComponent from './RoomComponent';
+import LiveComponent from './LiveComponent';
 
 function HomePageComponent() {
     const navigate = useNavigate();
     const storedUser = localStorage.getItem('user');
     const [user, setUser] = useState(JSON.parse(storedUser));
+    const [isInRoom, setIsInRoom] = useState(localStorage.getItem('isInRoom'));
+    console.log(localStorage.getItem('isInRoom'));
+
+    useEffect(() => {
+            setIsInRoom(localStorage.getItem('isInRoom'));
+    }, []);
 
     useEffect(() => {
         // Retrieve user data from localStorage
+        console.log(localStorage.getItem('isInRoom'));
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             setUser(JSON.parse(storedUser));
+            setIsInRoom(localStorage.getItem('isInRoom'));
         }
-    }, [storedUser]);
+    }, [storedUser, isInRoom]);
 
     return (
         <div>
@@ -90,9 +99,17 @@ function HomePageComponent() {
                 <h2>Welcome to VibeTogether!</h2>
                 <p>Discover and enjoy music with your friends.</p>
             </div>
-            <div>
-                <RoomComponent />
-            </div>
+            {isInRoom == true ? (
+                <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                    <h3>You're in a room!</h3>
+                    <LiveComponent />
+                </div>
+            ) : (
+                <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                    <h3>Create or Join a Room</h3>
+                    <RoomComponent />
+                </div>
+            )}
         </div>
     );
 }

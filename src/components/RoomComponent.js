@@ -1,14 +1,33 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router-dom';
 
 const App = () => {
+    const navigate = useNavigate();
     const [roomLink, setRoomLink] = useState('');
 
     const createRoom = () => {
-        const uniqueId = uuidv4();
+        const uniqueId = Math.random().toString(36).substring(2, 8);
         const link = `${window.location.origin}/room/${uniqueId}`;
+        const storedUser = localStorage.getItem('user');
+        console.log(storedUser.email)
         setRoomLink(link);
-        //we need to write API to create room in DB
+        const reqBody = {
+            userId : JSON.parse(storedUser).email,
+            roomId : uniqueId
+        }
+        axios.post("http://localhost:3001/roomDetails/createRoom", reqBody)
+            .then((res) => {
+                // setIsInRoom(true);
+                 
+                localStorage.setItem('isInRoom', true);
+                navigate(`/home`);
+                // Navigate to home or handle success
+                // navigate(`/live/${uniqueId}`);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     };
 
     const joinRoom = () => {
