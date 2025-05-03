@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const LiveComponent = () => {
+    const id = localStorage.getItem('roomId');
+    const [roomId, setRoomId] = useState(null);
+
+    useEffect(() => {       
+            setRoomId(id);
+    }, [id]);
 
     const tileStyle = {
         display: 'flex',
@@ -28,18 +34,35 @@ const LiveComponent = () => {
         minHeight: '100vh',
     };
 
+    const roomLinkStyle = {
+        fontSize: '24px',
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: '20px',
+    };
+
+    const roomIdStyle = {
+        fontSize: '20px',
+        color: '#4caf50',
+        fontWeight: 'bold',
+        wordBreak: 'break-word',
+    };
+
     return (
         <div style={containerStyle}>
-            <h1>
-                hiii
-            </h1>
-            <div
-                style={tileStyle}
-                onClick={() => alert('Live Room')}
-            >
-                Live Room
-            </div>
+        <h1 style={roomLinkStyle}>Room Id:</h1>
+        {roomId ? (
+            <p style={roomIdStyle}>{roomId}</p>
+        ) : (
+            <p style={{ color: '#999' }}>No Room ID Found</p>
+        )}
+        <div
+            style={tileStyle}
+            onClick={() => alert('Live Room')}
+        >
+            Live Room
         </div>
+    </div>
 );
 
 };

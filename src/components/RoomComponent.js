@@ -3,14 +3,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const App = () => {
+    const storedUser = localStorage.getItem('user');
     const navigate = useNavigate();
     const [roomLink, setRoomLink] = useState('');
 
     const createRoom = () => {
         const uniqueId = Math.random().toString(36).substring(2, 8);
         const link = `${window.location.origin}/room/${uniqueId}`;
-        const storedUser = localStorage.getItem('user');
-        console.log(storedUser.email)
+        localStorage.setItem('roomId', uniqueId);
+        // console.log(storedUser.email)
         setRoomLink(link);
         const reqBody = {
             userId : JSON.parse(storedUser).email,
@@ -18,8 +19,7 @@ const App = () => {
         }
         axios.post("http://localhost:3001/roomDetails/createRoom", reqBody)
             .then((res) => {
-                // setIsInRoom(true);
-                 
+                // setIsInRoom(true); 
                 localStorage.setItem('isInRoom', true);
                 navigate(`/home`);
                 // Navigate to home or handle success

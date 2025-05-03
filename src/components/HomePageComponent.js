@@ -6,23 +6,19 @@ import LiveComponent from './LiveComponent';
 function HomePageComponent() {
     const navigate = useNavigate();
     const storedUser = localStorage.getItem('user');
+    const isRoom = localStorage.getItem('isInRoom');
     const [user, setUser] = useState(JSON.parse(storedUser));
-    const [isInRoom, setIsInRoom] = useState(localStorage.getItem('isInRoom'));
+    const [isInRoom, setIsInRoom] = useState(false);
     console.log(localStorage.getItem('isInRoom'));
-
-    useEffect(() => {
-            setIsInRoom(localStorage.getItem('isInRoom'));
-    }, []);
 
     useEffect(() => {
         // Retrieve user data from localStorage
         console.log(localStorage.getItem('isInRoom'));
-        const storedUser = localStorage.getItem('user');
         if (storedUser) {
             setUser(JSON.parse(storedUser));
-            setIsInRoom(localStorage.getItem('isInRoom'));
+            setIsInRoom(isRoom);
         }
-    }, [storedUser, isInRoom]);
+    }, [storedUser,isRoom]);
 
     return (
         <div>
@@ -58,7 +54,9 @@ function HomePageComponent() {
                             onClick={() => {
                                 if (window.confirm("Are you sure you want to logout?")) {
                                     localStorage.removeItem('user'); // Clear user data
-                                    setUser(null); // Reset user state
+                                    setUser(null);// Reset user state
+                                    localStorage.setItem('isInRoom', false);
+                                    setIsInRoom(false) 
                                     navigate('/home'); // Redirect to Home page
                                 }
                             }}
@@ -99,7 +97,7 @@ function HomePageComponent() {
                 <h2>Welcome to VibeTogether!</h2>
                 <p>Discover and enjoy music with your friends.</p>
             </div>
-            {isInRoom == true ? (
+            {isInRoom ? (
                 <div style={{ textAlign: 'center', marginTop: '20px' }}>
                     <h3>You're in a room!</h3>
                     <LiveComponent />
